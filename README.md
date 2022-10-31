@@ -3,8 +3,8 @@
 ## Technologies which I used
 
 * MVVM Architecture
-* Retrofit - Gson
-* Dagger Hilt
+* Retrofit - Okhttp
+* Koin
 * Kotlin Coroutine
 * ViewModel - LiveData
 * RecyclerView
