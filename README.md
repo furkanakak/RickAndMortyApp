@@ -7,5 +7,4 @@
 * Koin
 * Kotlin Coroutine
 * ViewModel - LiveData
-* RecyclerView
-* Fragments
+* Room
