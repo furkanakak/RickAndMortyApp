@@ -10,5 +10,5 @@
 * Room
 
 ##Note
- Kotlin -> val presenter : MyPresenter by inject()
- Java -> Lazy<MyPresenter> myPresenter = inject(MyPresenter.class);
+* Kotlin -> val class : Myclass by inject()
+* Java -> Lazy<Myclass> class = inject(Myclass.class);
