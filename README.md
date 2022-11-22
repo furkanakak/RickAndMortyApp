@@ -9,6 +9,6 @@
 * ViewModel - LiveData
 * Room
 
-##Note
+## Note
 * Kotlin -> val class : Myclass by inject()
 * Java -> Lazy<Myclass> class = inject(Myclass.class);
