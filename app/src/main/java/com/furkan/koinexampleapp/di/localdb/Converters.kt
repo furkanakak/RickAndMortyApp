@@ -7,13 +7,13 @@ import com.google.gson.reflect.TypeToken
 
 class Converters {
     @TypeConverter
-    fun listToString(user: List<Result>): String {
+    fun listToString(user: ArrayList<Result>): String {
         return Gson().toJson(user)
     }
 
     @TypeConverter
-    fun stringToList(value: String): List<Result> {
-        return Gson().fromJson(value, object : TypeToken<List<Result>>() {}.type)
+    fun stringToList(value: String): ArrayList<Result> {
+        return Gson().fromJson(value, object : TypeToken<ArrayList<Result>>() {}.type)
     }
 
 }

@@ -11,7 +11,9 @@ import java.io.Serializable
 @Entity(tableName = "dbModel")
 data class RickAndMortyResponse(
     @PrimaryKey
-    @ColumnInfo(name = "results")
+    @ColumnInfo
+    var id: Int,
+
+    @ColumnInfo
     @TypeConverters(Converters::class)
-        val results: List<Result>
-) : Serializable
+    val results: ArrayList<Result> = ArrayList()) : Serializable

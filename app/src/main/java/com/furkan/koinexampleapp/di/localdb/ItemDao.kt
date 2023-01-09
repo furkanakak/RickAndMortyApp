@@ -4,17 +4,18 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.furkan.koinexampleapp.common.Constants
+import com.furkan.koinexampleapp.data.entity.rickendmorty.core.Result
 import com.furkan.koinexampleapp.data.entity.rickendmorty.core.RickAndMortyResponse
 
 @Dao
 interface ItemDao {
 
-    @Query("SELECT * FROM dbModel")
-    suspend fun getList(): RickAndMortyResponse
+    @Query("SELECT * FROM dbModel WHERE id = :id")
+    suspend fun getList(id : Int): RickAndMortyResponse
 
-    @Insert
+    @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
     suspend fun addList(item: RickAndMortyResponse)
 
-    @Delete
-   suspend fun deleteList(item: RickAndMortyResponse)
+
 }
