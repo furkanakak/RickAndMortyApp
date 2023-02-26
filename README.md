@@ -9,7 +9,7 @@
 * ViewModel - LiveData
 * Room
 * Coil
-* paging3
+* Paging 3
 
 
 ## Note
