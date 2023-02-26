@@ -8,9 +8,8 @@
 * Kotlin Coroutine
 * ViewModel - LiveData
 * Room
-* Coil
 * Paging3
-
+* Coil
 
 ## Note
 * Kotlin -> val class : Myclass by inject()
