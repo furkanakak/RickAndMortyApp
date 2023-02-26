@@ -10,5 +10,5 @@ val RemoteDataSourceModule = module {
 }
 
 class RemoteDataSource(private val apiService: ApiService) : BaseDataSource() {
-    suspend fun getHeroList() = getResult { apiService.listCharacters() }
+    suspend fun getHeroList(page : Int) = getResult { apiService.listCharacters(page) }
 }

@@ -1,16 +1,17 @@
 package com.furkan.koinexampleapp.ui.fragment.rickandmorty
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.furkan.koinexampleapp.data.entity.rickendmorty.core.Result
-import com.furkan.koinexampleapp.data.entity.rickendmorty.core.RickAndMortyResponse
-import com.furkan.koinexampleapp.di.networking.Resource
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import com.furkan.koinexampleapp.databinding.RickAndMortyFragmentBinding
-import com.furkan.koinexampleapp.di.localdb.Preferences
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.dsl.module
 
@@ -18,52 +19,45 @@ val fragmentModule = module {
     factory { RickAndMortyFragment()}
 }
 
-class RickAndMortyFragment() : Fragment() {
+class RickAndMortyFragment : Fragment() {
     private val viewModel: RickAndMortyViewModel by viewModel()
-    var binding: RickAndMortyFragmentBinding? = null
+    lateinit var binding: RickAndMortyFragmentBinding
+    var adapter = RickAndMortyListAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = RickAndMortyFragmentBinding.inflate(inflater, container, false)
-        return binding?.root
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getData()
+
+            initAdapter()
 
     }
 
-    private fun listenerDb() {
-        viewModel.rickAndMortyResponseGetDb()
-        viewModel.listLocalDb.observe(viewLifecycleOwner) { response ->
-            Log.v("localdata","local data ---> " + response.results)
-        }
-    }
 
-    private fun setLocalData(value : ArrayList<Result>) {
-        viewModel.rickAndMortyResponseSetDb(value)
-        listenerDb()
-    }
 
-    private fun getData() {
-        viewModel.getHeroList().observe(viewLifecycleOwner){ response ->
-            when(response.status){
-                Resource.Status.LOADING ->{}
-                Resource.Status.SUCCESS  ->{ response.data?.let {
-                    Log.v("localdata","remote data ---> " + response.data.results)
-                    setLocalData(response.data.results)
-                }}
-                Resource.Status.ERROR  ->{Log.v("callresponse","${response.message}")}
+    private  fun initAdapter() {
+         adapter = RickAndMortyListAdapter()
+        binding.recyclerView.adapter = adapter
+
+        lifecycleScope.launchWhenCreated {
+            viewModel.result.collect { pagingData ->
+                adapter.submitData(pagingData)
             }
-
         }
 
-    }
 
-    override fun onDestroy() {
-        binding = null
-        super.onDestroy()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collect {
+                    binding.progressCircular.isVisible = it.source.append is LoadState.Loading
+                }
+            }
+        }
+
     }
 
 

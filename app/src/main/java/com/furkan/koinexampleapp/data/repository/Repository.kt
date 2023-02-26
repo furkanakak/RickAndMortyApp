@@ -18,7 +18,7 @@ val RepositoryModule = module {
 
 open class Repository(private val localDataSource: LocalDataSource ,private val remoteDataSource: RemoteDataSource) {
     var list : MutableLiveData<RickAndMortyResponse> = localDataSource.list
-    fun getRickAndMortyResponse() = performNetworkOperation {remoteDataSource.getHeroList()}
+    fun getRickAndMortyResponse(page : Int) = performNetworkOperation {remoteDataSource.getHeroList(page)}
 
     fun rickAndMortyResponseSetDb(list: ArrayList<Result>) {
         CoroutineScope(Dispatchers.Main).launch {
