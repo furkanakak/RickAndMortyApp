@@ -4,13 +4,9 @@
 
 * MVVM Architecture
 * Retrofit - Okhttp
-* Koin
+* Hilt - Dagger
 * Kotlin Coroutine
-* ViewModel - LiveData
-* Room
-* Paging3
-* Coil
+* ViewModel - Kotlin Flows
+* Modular-Architecture
+* Unit Test 
 
-## Note
-* Kotlin -> val class : Myclass by inject()
-* Java -> Lazy<Myclass> class = inject(Myclass.class);
